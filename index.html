@@ -30,8 +30,8 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -1; /* Behind other elements */
-            opacity: 0.2; /* Slightly transparent for subtle effect */
+            z-index: -1;
+            opacity: 0.2; /* Subtle transparency for background */
         }
         
         /* Header link styling */
@@ -46,7 +46,7 @@
         h1 {
             font-family: 'Cooper Black', cursive;
             color: #d2691e;
-            font-size: 28;
+            font-size: 2.5em;
             opacity: 0.7;
             margin: 10px 0;
         }
@@ -65,6 +65,7 @@
         /* Map container styling */
         #mapContainer {
             width: 100%;
+            background-color: #fff8dc;
             border-top: 1px solid black;
             padding: 10px 0;
             text-align: center;
@@ -78,12 +79,12 @@
         }
         
         /* Responsive adjustments for smaller screens */
-        @media (max-width: 600px) {
+        @media (max-width: 767px) {
             h1 {
-                font-size: 48em;
+                font-size: 2em;
             }
             #paragraphText {
-                font-size: 24em;
+                font-size: 1.1em;
             }
             iframe {
                 height: 200px;
@@ -124,10 +125,20 @@
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        let waffles = [];
 
+        // Function to set canvas to full viewport size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        // Initial call and resizing on window resize or screen orientation change
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('orientationchange', resizeCanvas);
+
+        // Waffle generation setup
+        let waffles = [];
         const getRandomBrown = () => ['#8B4513', '#A0522D', '#D2691E', '#CD853F', '#F4A460', '#DEB887', '#D2B48C', '#BC8F8F', '#FFEBCD', '#F5DEB3'][Math.floor(Math.random() * 10)];
 
         function generateWaffle(n, R) {
@@ -138,7 +149,7 @@
                 const y = (R + r) * Math.sin(v) - r * Math.sin((R + r) / r * v);
                 x_epi.push(x); y_epi.push(y);
                 const m = Math.floor((n * v) / (2 * Math.PI)); 
-	      	a = (n * v) / (2 * Math.PI) - m;
+	      	    a = (n * v) / (2 * Math.PI) - m;
                 x_kant.push(a * R * Math.cos((m+1) * 2 * Math.PI / n));
                 y_kant.push(a * R * Math.sin((m+1) * 2 * Math.PI / n));
             });
@@ -176,7 +187,7 @@
                         ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
                     }
                 } else {
-                    for (let j = currentPoint+1; j < newEndPoint; j++) {
+                    for (let j = currentPoint + 1; j < newEndPoint; j++) {
                         ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
                         ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
                     }
@@ -189,11 +200,7 @@
             requestAnimationFrame(draw);
         }
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
+        // Initial call to draw and add waffles periodically
         draw();
         setInterval(addWaffle, 1000);
     </script>
