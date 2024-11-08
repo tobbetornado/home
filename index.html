@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Velkommen til vaffelsøndag!</title>
     <style>
-/* Reset and general styling */
+/* Reset and basic styling */
 * {
     margin: 0;
     padding: 0;
@@ -14,8 +14,11 @@ body {
     background-color: #fff8dc;
     font-family: Arial, sans-serif;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    overflow-x: hidden;
+    min-height: 100vh;
 }
 
 /* Header link styling */
@@ -26,23 +29,23 @@ body {
     opacity: 0.6;
 }
 
-/* Main title styling */
+/* Title styling */
 h1 {
     font-family: 'Cooper Black', cursive;
     color: #d2691e;
     opacity: 0.7;
     font-size: 8vw; /* Responsive font size */
-    margin: 10px 0 5px; /* Minimal margin above and below */
+    margin: 10px 0 10px 0; /* Consistent spacing around */
 }
 
-/* Main content styling */
+/* Paragraph text styling */
 #paragraphText {
     width: 90%;
     max-width: 600px;
     font-family: 'Georgia', serif;
     font-size: 1.2em;
     line-height: 1.4;
-    margin: 10px auto; /* Close to header */
+    margin: 5px 0; /* Keeps paragraph close to title */
     text-align: left;
 }
 #paragraphText ul {
@@ -50,7 +53,7 @@ h1 {
     margin-top: 5px;
 }
 
-/* Map container */
+/* Map container styling */
 #mapContainer {
     width: 100%;
     background-color: #fff8dc;
@@ -69,12 +72,11 @@ iframe {
 /* Responsive adjustments for smaller screens */
 @media (max-width: 767px) {
     h1 {
-        font-size: 10vw; /* Larger font for readability on mobile */
-        margin-top: 10px;
+        font-size: 10vw; /* Slightly larger font for mobile */
     }
     #paragraphText {
-        width: 100%; /* Full width on mobile */
-        font-size: 1.2em; /* Increased readability */
+        width: 100%;
+        font-size: 1.1em; /* Larger font for better readability */
     }
     iframe {
         height: 200px;
