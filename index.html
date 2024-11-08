@@ -4,98 +4,88 @@
     <meta charset="UTF-8">
     <title>Velkommen til vaffelsøndag!</title>
     <style>
-/* Reset and basic styling */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body {
-    background-color: #fff8dc;
-    font-family: Arial, sans-serif;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    min-height: 100vh;
-}
-
-/* Header link styling */
-#headerLink {
-    margin-top: 10px;
-    font-family: 'Courier New', monospace;
-    font-size: 16px;
-    opacity: 0.6;
-}
-
-/* Title styling */
-h1 {
-    font-family: 'Cooper Black', cursive;
-    color: #d2691e;
-    opacity: 0.7;
-    font-size: 8vw; /* Responsive font size */
-    margin: 10px 0 10px 0; /* Consistent spacing around */
-}
-
-/* Paragraph text styling */
-#paragraphText {
-    width: 90%;
-    max-width: 600px;
-    font-family: 'Georgia', serif;
-    font-size: 1.2em;
-    line-height: 1.4;
-    margin: 5px 0; /* Keeps paragraph close to title */
-    text-align: left;
-}
-#paragraphText ul {
-    padding-left: 20px;
-    margin-top: 5px;
-}
-
-/* Map container styling */
-#mapContainer {
-    width: 100%;
-    background-color: #fff8dc;
-    border-top: 1px solid black;
-    padding: 10px 0;
-    margin-top: 10px; /* Small gap above the map */
-    text-align: center;
-}
-iframe {
-    width: 90%;
-    max-width: 425px;
-    height: 300px;
-    border: 1px solid black;
-}
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 767px) {
-    h1 {
-        font-size: 10vw; /* Slightly larger font for mobile */
-    }
-    #paragraphText {
-        width: 100%;
-        font-size: 1.1em; /* Larger font for better readability */
-    }
-    iframe {
-        height: 200px;
-    }
-}
-
-
-
+        /* Reset and basic styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #fff8dc;
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        /* Header link styling */
+        #headerLink {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            opacity: 0.6;
+            margin-top: 10px;
+        }
+        
+        /* Title styling */
+        h1 {
+            font-family: 'Cooper Black', cursive;
+            color: #d2691e;
+            font-size: 2.5em;
+            opacity: 0.7;
+            margin: 10px 0;
+        }
+        
+        /* Paragraph text styling */
+        #paragraphText {
+            width: 90%;
+            max-width: 600px;
+            font-family: 'Georgia', serif;
+            font-size: 1.2em;
+            line-height: 1.5;
+            margin: 10px 0;
+            text-align: left;
+        }
+        
+        /* Map container styling */
+        #mapContainer {
+            width: 100%;
+            background-color: #fff8dc;
+            border-top: 1px solid black;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 10px;
+        }
+        iframe {
+            width: 90%;
+            max-width: 425px;
+            height: 300px;
+            border: 1px solid black;
+        }
+        
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 767px) {
+            h1 {
+                font-size: 2em; /* Slightly larger for readability */
+            }
+            #paragraphText {
+                font-size: 1.1em;
+            }
+            iframe {
+                height: 200px;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="headerLink">
         <a href="https://tobbetornado.github.io/home/" target="_blank">https://tobbetornado.github.io/home/</a>
     </div>
-
-    <!-- Background header text as an h1 -->
+    
     <h1>Vaffelsøndag</h1>
-
-    <canvas id="canvas"></canvas>
+    
     <div id="paragraphText">
         <p>Adresse: Søndre Skogveien 20</p>
         <p>Tidspunkt: Kl. 14 og utover</p>
@@ -103,14 +93,17 @@ iframe {
         <ul>
             <li><a href="https://open.spotify.com/playlist/2I4yb0vu5zpt2xl2Eqgl0j?si=zhlGos9ESJ-y0dEvV3VSUQ" target="_blank">Spotify: Offisiell vaffelmix</a></li>
             <li><a href="https://www.facebook.com/events/390707124010788" target="_blank">Facebook: Arrangement</a></li>
-			<li><a href="https://tobbetornado.github.io/home/vaf3" target="_blank">Vaffelsøndag meditasjon</a></li>
         </ul>
     </div>
+    
     <div id="mapContainer">
         <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=5.3317487239837655%2C60.373420467673085%2C5.335267782211304%2C60.37478482836075&amp;layer=mapnik"></iframe>
         <br/>
         <small><a href="https://www.openstreetmap.org/#map=19/60.374103/5.333508" target="_blank">View Larger Map</a></small>
     </div>
+</body>
+</html>
+
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
