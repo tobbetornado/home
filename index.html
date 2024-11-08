@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <title>Velkommen til vaffelsøndag!</title>
     <style>
-<!DOCTYPE html>
-<html lang="no">
-<head>
-    <meta charset="UTF-8">
-    <title>Velkommen til vaffelsøndag!</title>
-    <style>
         /* Reset and basic styling */
         * {
             margin: 0;
@@ -52,7 +46,7 @@
         h1 {
             font-family: 'Cooper Black', cursive;
             color: #d2691e;
-            font-size: 2.5em;
+            font-size: 28;
             opacity: 0.7;
             margin: 10px 0;
         }
@@ -84,133 +78,17 @@
         }
         
         /* Responsive adjustments for smaller screens */
-        @media (max-width: 767px) {
+        @media (max-width: 600px) {
             h1 {
-                font-size: 2em;
+                font-size: 48em;
             }
             #paragraphText {
-                font-size: 1.1em;
+                font-size: 24em;
             }
             iframe {
                 height: 200px;
             }
         }
-    </style>
-</head>
-<body>
-    <!-- Canvas for waffles background -->
-    <canvas id="canvas"></canvas>
-
-    <!-- Header link -->
-    <div id="headerLink">
-        <a href="https://tobbetornado.github.io/home/" target="_blank">https://tobbetornado.github.io/home/</a>
-    </div>
-    
-    <!-- Main title -->
-    <h1>Vaffelsøndag</h1>
-    
-    <!-- Main content -->
-    <div id="paragraphText">
-        <p>Adresse: Søndre Skogveien 20</p>
-        <p>Tidspunkt: Kl. 14 og utover</p>
-        <p>Nyttige lenker:</p>
-        <ul>
-            <li><a href="https://open.spotify.com/playlist/2I4yb0vu5zpt2xl2Eqgl0j?si=zhlGos9ESJ-y0dEvV3VSUQ" target="_blank">Spotify: Offisiell vaffelmix</a></li>
-            <li><a href="https://www.facebook.com/events/390707124010788" target="_blank">Facebook: Arrangement</a></li>
-        </ul>
-    </div>
-    
-    <!-- Map container -->
-    <div id="mapContainer">
-        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=5.3317487239837655%2C60.373420467673085%2C5.335267782211304%2C60.37478482836075&amp;layer=mapnik"></iframe>
-        <br/>
-        <small><a href="https://www.openstreetmap.org/#map=19/60.374103/5.333508" target="_blank">View Larger Map</a></small>
-    </div>
-
-    <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-
-        // Function to resize canvas to cover the full viewport
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        
-        // Initial resize and event listener for resizing
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        // Background waffle generation setup
-        let waffles = [];
-        const getRandomBrown = () => ['#8B4513', '#A0522D', '#D2691E', '#CD853F', '#F4A460', '#DEB887', '#D2B48C', '#BC8F8F', '#FFEBCD', '#F5DEB3'][Math.floor(Math.random() * 10)];
-
-        function generateWaffle(n, R) {
-            const r = R / (2 * n), vinkler = Array.from({ length: 360 * n + 1 }, (_, i) => i * 2 * Math.PI / (360 * n));
-            const x_epi = [], y_epi = [], x_kant = [], y_kant = [];
-            vinkler.forEach(v => {
-                const x = (R + r) * Math.cos(v) - r * Math.cos((R + r) / r * v);
-                const y = (R + r) * Math.sin(v) - r * Math.sin((R + r) / r * v);
-                x_epi.push(x); y_epi.push(y);
-                const m = Math.floor((n * v) / (2 * Math.PI)); 
-	      	    a = (n * v) / (2 * Math.PI) - m;
-                x_kant.push(a * R * Math.cos((m+1) * 2 * Math.PI / n));
-                y_kant.push(a * R * Math.sin((m+1) * 2 * Math.PI / n));
-            });
-            return { x_epi, y_epi, x_kant, y_kant, currentPoint: 0 };
-        }
-
-        function addWaffle() {
-            const n = Math.floor(Math.random() * 3) + 4, R = Math.random() * 50 + 30;
-            const points = generateWaffle(n, R);
-            let posX = Math.random() * canvas.width, posY = Math.random() * canvas.height;
-            waffles.push({ points, color: getRandomBrown(), posX, posY, R, createTime: Date.now(), reverse: Math.random() < 0.5, rotationAngle: Math.random() * 2 * Math.PI });
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const currentTime = Date.now();
-            waffles = waffles.filter(waffle => (currentTime - waffle.createTime) / 1000 < 10);
-
-            waffles.forEach(waffle => {
-                const { points, color, posX, posY, rotationAngle, reverse, createTime } = waffle;
-                const age = (currentTime - createTime) / 1000, opacity = Math.max(1 - age / 10, 0);
-                const { x_epi, y_epi, x_kant, y_kant, currentPoint } = points;
-                const totalPoints = x_epi.length, pointsPerFrame = Math.random() * 10 + 1;
-                const newEndPoint = Math.min(currentPoint + pointsPerFrame, totalPoints);
-
-                ctx.globalAlpha = opacity * 0.5;
-                ctx.fillStyle = color;
-                ctx.save();
-                ctx.translate(posX, posY);
-                ctx.rotate(rotationAngle);
-
-                if (reverse) {
-                    for (let j = totalPoints - 2; j >= totalPoints - newEndPoint; j--) {
-                        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
-                        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
-                    }
-                } else {
-                    for (let j = currentPoint + 1; j < newEndPoint; j++) {
-                        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
-                        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
-                    }
-                }
-
-                points.currentPoint = newEndPoint;
-                ctx.restore();
-                ctx.globalAlpha = 1;
-            });
-            requestAnimationFrame(draw);
-        }
-
-        // Initial call to draw and add waffles periodically
-        draw();
-        setInterval(addWaffle, 1000);
-    </script>
-</body>
-</html>
-
     </style>
 </head>
 <body>
