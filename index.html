@@ -19,6 +19,19 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Canvas background */
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; /* Behind other elements */
+            opacity: 0.2; /* Slightly transparent for subtle effect */
         }
         
         /* Header link styling */
@@ -68,7 +81,7 @@
         /* Responsive adjustments for smaller screens */
         @media (max-width: 767px) {
             h1 {
-                font-size: 2em; /* Slightly larger for readability */
+                font-size: 2em;
             }
             #paragraphText {
                 font-size: 1.1em;
@@ -80,12 +93,18 @@
     </style>
 </head>
 <body>
+    <!-- Canvas for waffles background -->
+    <canvas id="canvas"></canvas>
+
+    <!-- Header link -->
     <div id="headerLink">
         <a href="https://tobbetornado.github.io/home/" target="_blank">https://tobbetornado.github.io/home/</a>
     </div>
     
+    <!-- Main title -->
     <h1>Vaffelsøndag</h1>
     
+    <!-- Main content -->
     <div id="paragraphText">
         <p>Adresse: Søndre Skogveien 20</p>
         <p>Tidspunkt: Kl. 14 og utover</p>
@@ -96,13 +115,12 @@
         </ul>
     </div>
     
+    <!-- Map container -->
     <div id="mapContainer">
         <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=5.3317487239837655%2C60.373420467673085%2C5.335267782211304%2C60.37478482836075&amp;layer=mapnik"></iframe>
         <br/>
         <small><a href="https://www.openstreetmap.org/#map=19/60.374103/5.333508" target="_blank">View Larger Map</a></small>
     </div>
-</body>
-</html>
 
     <script>
         const canvas = document.getElementById('canvas');
@@ -131,15 +149,7 @@
         function addWaffle() {
             const n = Math.floor(Math.random() * 3) + 4, R = Math.random() * 50 + 30;
             const points = generateWaffle(n, R);
-            let posX, posY, attempts = 0, overlap;
-
-            do {
-                posX = Math.random() * canvas.width;
-                posY = Math.random() * canvas.height;
-                overlap = waffles.some(w => Math.hypot(posX - w.posX, posY - w.posY) < R + w.R);
-                attempts++;
-            } while (overlap && attempts < 10);
-
+            let posX = Math.random() * canvas.width, posY = Math.random() * canvas.height;
             waffles.push({ points, color: getRandomBrown(), posX, posY, R, createTime: Date.now(), reverse: Math.random() < 0.5, rotationAngle: Math.random() * 2 * Math.PI });
         }
 
@@ -155,7 +165,7 @@
                 const totalPoints = x_epi.length, pointsPerFrame = Math.random() * 10 + 1;
                 const newEndPoint = Math.min(currentPoint + pointsPerFrame, totalPoints);
 
-                ctx.globalAlpha = opacity;
+                ctx.globalAlpha = opacity * 0.5;
                 ctx.fillStyle = color;
                 ctx.save();
                 ctx.translate(posX, posY);
