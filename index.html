@@ -56,6 +56,9 @@
             font-size: 16px;
 			opacity: 0.6;
 		}
+		#mapContainer {
+			margin-top: 20px;
+		}
     </style>
 </head>
 <body>
@@ -76,6 +79,16 @@
 		</ul>
 		
     </div>
+	<div>
+	<iframe width="425" height="350" 
+		src="https://www.openstreetmap.org/export/embed.html?bbox=5.3317487239837655%2C60.373420467673085%2C5.335267782211304%2C60.37478482836075&amp;layer=mapnik" 
+		style="border: 1px solid black">
+	</iframe>
+	<br/>
+	<small>
+	<a href="https://www.openstreetmap.org/#map=19/60.374103/5.333508">View Larger Map</a>
+	</small>
+	</div>
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
