@@ -4,93 +4,82 @@
     <meta charset="UTF-8">
     <title>Velkommen til vaffelsøndag!</title>
     <style>
-        /* General styling for all screens */
+/* Reset og generell styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 body {
     background-color: #fff8dc;
-    margin: 0;
-    text-align: center;
-    min-height: 100vh;
-    overflow-x: hidden;
     font-family: Arial, sans-serif;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
 }
-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: transparent;
-}
+
+/* Overskrift-link */
 #headerLink {
     margin-top: 10px;
-    font-family: 'Courier New', cursive, sans-serif;
+    font-family: 'Courier New', monospace;
     font-size: 16px;
     opacity: 0.6;
 }
+
+/* Overskrift */
 h1 {
-    font-family: 'Cooper Black', cursive, sans-serif;
+    font-family: 'Cooper Black', cursive;
     color: #d2691e;
-    opacity: 0.6;
-    pointer-events: none;
-    text-align: center;
-    margin: 10px 0; /* Tighter spacing with the content */
-    font-size: 8vw; /* Responsive font size based on viewport width */
+    opacity: 0.7;
+    font-size: 8vw; /* Responsiv fontstørrelse for mobil */
+    margin: 10px 0; /* Smalere vertikalt mellomrom */
 }
+
+/* Brødtekst */
 #paragraphText {
-    width: 90%; /* Full width on smaller screens */
+    width: 90%;
     max-width: 600px;
     font-family: 'Georgia', serif;
     font-size: 1.2em;
-    line-height: 1.4;
-    margin: 10px auto; /* Closer to the heading */
+    line-height: 1.6;
+    margin: 10px auto; /* Nærmere overskriften */
     text-align: left;
 }
 #paragraphText ul {
     padding-left: 20px;
     margin-top: 10px;
 }
+
+/* Kart-container */
 #mapContainer {
     width: 100%;
+    background-color: #fff8dc;
     border-top: 1px solid black;
     padding: 10px 0;
+    position: fixed; /* Fester kartet til bunnen */
+    bottom: 0;
     text-align: center;
-    margin-top: 20px; /* Ensures map is below other content */
+    z-index: 10; /* Sikrer at kartet ligger øverst */
 }
 iframe {
-    border: none;
     width: 90%;
     max-width: 425px;
     height: 300px;
+    border: 1px solid black;
 }
 
-/* Styling for larger screens (desktops) */
-@media (min-width: 768px) {
-    h1 {
-        position: absolute;
-        top: 15%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 120px;
-    }
-    #paragraphText {
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 40%;
-        font-size: 18px;
-    }
-}
-
-/* Styling for smaller screens (phones) */
+/* Responsiv justering for mobil */
 @media (max-width: 767px) {
     h1 {
-        font-size: 10vw;
-        margin-top: 20px;
+        font-size: 12vw; /* Større fontstørrelse på mobil */
+        margin-top: 15px;
     }
     #paragraphText {
-        width: 100%;
-        font-size: 1.2em;
-        margin: 15px auto;
+        width: 100%; /* Full bredde på mobil */
+        font-size: 1.2em; /* Økt lesbarhet på mobil */
     }
     iframe {
         height: 200px;
