@@ -9,7 +9,6 @@
             background-color: #fff8dc;
             margin: 0;
             text-align: center;
-            min-height: 100vh;
             overflow-x: hidden;
             font-family: Arial, sans-serif;
             color: #333;
@@ -21,31 +20,31 @@
             background-color: transparent;
         }
         #headerLink {
-            margin-top: 15px;
-            font-family: 'Courier New', cursive, sans-serif;
+            margin-top: 10px; /* Reduced margin-top */
+            font-family: 'Courier New', monospace;
             font-size: 16px;
             opacity: 0.6;
         }
         h1 {
-            font-family: 'Cooper Black', cursive, sans-serif;
+            font-family: 'Cooper Black', cursive;
             color: #d2691e;
             opacity: 0.6;
             pointer-events: none;
             text-align: center;
-            margin: 0;
+            margin: 10px 0; /* Added margin to separate from other elements */
         }
         #paragraphText {
             width: 90%;
             max-width: 600px;
             font-family: 'Georgia', serif;
-            font-size: 1.4em; /* Larger for readability */
-            line-height: 1.8;
-            margin: 20px auto;
+            font-size: 1.4em;
+            line-height: 1.6; /* Reduced line-height */
+            margin: 10px auto; /* Reduced vertical margin */
             text-align: left;
         }
         #paragraphText ul {
             padding-left: 20px;
-            margin-top: 10px;
+            margin-top: 5px; /* Reduced margin-top */
         }
         #mapContainer {
             width: 100%;
@@ -70,6 +69,7 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 font-size: 120px;
+                margin: 0; /* Remove margin when positioned absolutely */
             }
             #paragraphText {
                 position: absolute;
@@ -78,6 +78,7 @@
                 transform: translateX(-50%);
                 width: 40%; /* Reduced width for larger screens */
                 font-size: 18px;
+                margin: 0; /* Remove margin when positioned absolutely */
             }
         }
 
@@ -85,14 +86,23 @@
         @media (max-width: 767px) {
             h1 {
                 font-size: 48px;
-                margin-top: 20px;
+                margin: 10px 0; /* Reduced margin to bring elements closer */
+                position: static; /* Remove absolute positioning */
+                transform: none;
             }
             #paragraphText {
-                width: 90%; /* Full width on smaller screens */
-                font-size: 24px;
+                width: 100%; /* Use full screen width on mobile */
+                font-size: 18px; /* Adjusted font size for readability */
+                margin: 10px auto; /* Reduced vertical margin */
+                position: static; /* Remove absolute positioning */
+                transform: none;
             }
             iframe {
+                width: 100%; /* Use full screen width on mobile */
                 height: 200px;
+            }
+            #headerLink {
+                margin-top: 5px; /* Reduced margin-top */
             }
         }
     </style>
@@ -107,17 +117,16 @@
 
     <canvas id="canvas"></canvas>
     <div id="paragraphText">
-        Adresse: Søndre Skogveien 20 <br>
-        Tidspunkt: Kl. 14 og utover <br><br>
-        
-        Nyttige lenker:
+        <p>Adresse: Søndre Skogveien 20</p>
+        <p>Tidspunkt: Kl. 14 og utover</p>
+        <p>Nyttige lenker:</p>
         <ul>
             <li><a href="https://open.spotify.com/playlist/2I4yb0vu5zpt2xl2Eqgl0j?si=zhlGos9ESJ-y0dEvV3VSUQ" target="_blank">Spotify: Offisiell vaffelmix</a></li>
             <li><a href="https://www.facebook.com/events/390707124010788" target="_blank">Facebook: Arrangement</a></li>
         </ul>
     </div>
     <div id="mapContainer">
-        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=5.3317487239837655%2C60.373420467673085%2C5.335267782211304%2C60.37478482836075&amp;layer=mapnik" style="border: 1px solid black"></iframe>
+        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=5.3317487239837655%2C60.373420467673085%2C5.335267782211304%2C60.37478482836075&amp;layer=mapnik"></iframe>
         <br/>
         <small><a href="https://www.openstreetmap.org/#map=19/60.374103/5.333508" target="_blank">View Larger Map</a></small>
     </div>
