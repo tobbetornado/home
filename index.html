@@ -35,11 +35,12 @@
             margin: 0;
         }
         #paragraphText {
+            width: 90%;
+            max-width: 600px;
+            font-family: 'Georgia', serif;
+            font-size: 1.4em; /* Larger for readability */
+            line-height: 1.8;
             margin: 20px auto;
-            width: 80%; /* Adjusted width for smaller screens */
-            font-family: 'Georgia', sans-serif;
-            font-size: 18px;
-            line-height: 1.6;
             text-align: left;
         }
         #paragraphText ul {
@@ -47,14 +48,12 @@
             margin-top: 10px;
         }
         #mapContainer {
-            position: fixed;
-            bottom: 0;
             width: 100%;
-            background-color: #fff8dc;
             border-top: 1px solid black;
             padding: 10px 0;
+            position: sticky;
+            bottom: 0;
             text-align: center;
-            z-index: 100;
         }
         iframe {
             border: none;
@@ -90,7 +89,7 @@
             }
             #paragraphText {
                 width: 90%; /* Full width on smaller screens */
-                font-size: 16px;
+                font-size: 24px;
             }
             iframe {
                 height: 200px;
