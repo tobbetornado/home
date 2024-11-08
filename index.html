@@ -31,7 +31,7 @@
         }
         #footerLink {
             position: relative;
-            top: 30%;
+            top: 50%;
             left: 25px;   
             width: 50%;
 
@@ -45,6 +45,18 @@
         #footerLink a:hover {
             text-decoration: underline;
         }
+        #textField {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            padding: 10px;
+            border: 2px solid #d2691e;
+            border-radius: 5px;
+            color: #333;
+            background-color: #fff8dc;
+        }
     </style>
 </head>
 <body>
@@ -53,6 +65,7 @@
 <div id="footerLink">
         <a href="https://open.spotify.com/playlist/2I4yb0vu5zpt2xl2Eqgl0j?si=zhlGos9ESJ-y0dEvV3VSUQ" target="_blank">Spotify: Offisiell vaffelmix</a>
     </div>
+    <input type="text" id="textField" placeholder="Skriv noe her...">
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
