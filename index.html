@@ -5,106 +5,98 @@
     <title>Velkommen til vaffelsøndag!</title>
     <style>
         /* General styling for all screens */
-        body {
-            background-color: #fff8dc;
-            margin: 0;
-            text-align: center;
-            overflow-x: hidden;
-            font-family: Arial, sans-serif;
-            color: #333;
-        }
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: transparent;
-        }
-        #headerLink {
-            margin-top: 10px; /* Reduced margin-top */
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-            opacity: 0.6;
-        }
-        h1 {
-            font-family: 'Cooper Black', cursive;
-            color: #d2691e;
-            opacity: 0.6;
-            pointer-events: none;
-            text-align: center;
-            margin: 10px 0; /* Added margin to separate from other elements */
-        }
-        #paragraphText {
-            width: 90%;
-            max-width: 600px;
-            font-family: 'Georgia', serif;
-            font-size: 1.4em;
-            line-height: 1.6; /* Reduced line-height */
-            margin: 10px auto; /* Reduced vertical margin */
-            text-align: left;
-        }
-        #paragraphText ul {
-            padding-left: 20px;
-            margin-top: 5px; /* Reduced margin-top */
-        }
-        #mapContainer {
-            width: 100%;
-            border-top: 1px solid black;
-            padding: 10px 0;
-            position: sticky;
-            bottom: 0;
-            text-align: center;
-        }
-        iframe {
-            border: none;
-            width: 90%;
-            max-width: 425px;
-            height: 300px;
-        }
+body {
+    background-color: #fff8dc;
+    margin: 0;
+    text-align: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+}
+#headerLink {
+    margin-top: 10px;
+    font-family: 'Courier New', cursive, sans-serif;
+    font-size: 16px;
+    opacity: 0.6;
+}
+h1 {
+    font-family: 'Cooper Black', cursive, sans-serif;
+    color: #d2691e;
+    opacity: 0.6;
+    pointer-events: none;
+    text-align: center;
+    margin: 10px 0; /* Tighter spacing with the content */
+    font-size: 8vw; /* Responsive font size based on viewport width */
+}
+#paragraphText {
+    width: 90%; /* Full width on smaller screens */
+    max-width: 600px;
+    font-family: 'Georgia', serif;
+    font-size: 1.2em;
+    line-height: 1.4;
+    margin: 10px auto; /* Closer to the heading */
+    text-align: left;
+}
+#paragraphText ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+#mapContainer {
+    width: 100%;
+    border-top: 1px solid black;
+    padding: 10px 0;
+    text-align: center;
+    margin-top: 20px; /* Ensures map is below other content */
+}
+iframe {
+    border: none;
+    width: 90%;
+    max-width: 425px;
+    height: 300px;
+}
 
-        /* Styling for larger screens (desktops) */
-        @media (min-width: 768px) {
-            h1 {
-                position: absolute;
-                top: 15%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                font-size: 120px;
-                margin: 0; /* Remove margin when positioned absolutely */
-            }
-            #paragraphText {
-                position: absolute;
-                top: 40%;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 40%; /* Reduced width for larger screens */
-                font-size: 18px;
-                margin: 0; /* Remove margin when positioned absolutely */
-            }
-        }
+/* Styling for larger screens (desktops) */
+@media (min-width: 768px) {
+    h1 {
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 120px;
+    }
+    #paragraphText {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40%;
+        font-size: 18px;
+    }
+}
 
-        /* Styling for smaller screens (phones) */
-        @media (max-width: 767px) {
-            h1 {
-                font-size: 48px;
-                margin: 10px 0; /* Reduced margin to bring elements closer */
-                position: static; /* Remove absolute positioning */
-                transform: none;
-            }
-            #paragraphText {
-                width: 100%; /* Use full screen width on mobile */
-                font-size: 18px; /* Adjusted font size for readability */
-                margin: 10px auto; /* Reduced vertical margin */
-                position: static; /* Remove absolute positioning */
-                transform: none;
-            }
-            iframe {
-                width: 100%; /* Use full screen width on mobile */
-                height: 200px;
-            }
-            #headerLink {
-                margin-top: 5px; /* Reduced margin-top */
-            }
-        }
+/* Styling for smaller screens (phones) */
+@media (max-width: 767px) {
+    h1 {
+        font-size: 10vw;
+        margin-top: 20px;
+    }
+    #paragraphText {
+        width: 100%;
+        font-size: 1.2em;
+        margin: 15px auto;
+    }
+    iframe {
+        height: 200px;
+    }
+}
+
     </style>
 </head>
 <body>
