@@ -209,17 +209,18 @@ margin:0;
                 ctx.translate(posX, posY);
                 ctx.rotate(rotationAngle);
 
-                if (reverse) {
-                    for (let j = totalPoints - 2; j >= totalPoints - newEndPoint; j--) {
-                        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
-                        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
-                    }
-                } else {
-                    for (let j = currentPoint + 1; j < newEndPoint; j++) {
-                        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
-                        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
-                    }
-                }
+               if (reverse) {
+    for (let j = totalPoints - currentPoint - 1; j >= totalPoints - newEndPoint; j--) {
+        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
+        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
+    }
+} else {
+    for (let j = currentPoint; j < newEndPoint; j++) {
+        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
+        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
+    }
+}
+
 
                 points.currentPoint = newEndPoint;
                 ctx.restore();
