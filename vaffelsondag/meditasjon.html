@@ -9,115 +9,54 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&display=swap" rel="stylesheet">
 	<style>
-        /* Reset and basic styling */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background-color: #fff8dc;
-            font-family: Arial, sans-serif;
-            color: #333;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+  <style>
+    /* Reset and basic styling */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        background-color: #fff8dc;
+        font-family: Arial, sans-serif;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
 
-        /* Canvas background */
-        #canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            opacity: 1;
-        }
+    /* Canvas background */
+    #canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        opacity: 1;
+    }
 
-        /* Header link styling */
-        #headerLink {
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-            opacity: 0.6;
-            margin-top: 10px;
-        }
+    /* Centered Header Styling */
+    h1 {
+        font-family: 'Young Serif', cursive;
+        font-size: clamp(3rem, 8vw, 10rem);
+        color: #d2691e;
+        opacity: 0.6;
+        text-align: center;
+    }
 
-h1 {
-    font-family: 'Young Serif', cursive;
-    font-size: clamp(3rem, 8vw, 10rem); /* Adjusts between 2rem and 6rem based on viewport */
-    margin: 0;
-    text-align: center;
-	    color: #d2691e; /* Chocolate color */
-		opacity: 0.6;
+    /* Header link styling (optional, if still needed) */
+    #headerLink {
+        font-family: 'Courier New', monospace;
+        font-size: 16px;
+        opacity: 0.6;
+        margin-top: 10px;
+        text-align: center;
+    }
+</style>
 
-}
-
-
-        /* Paragraph text styling */
-        #paragraphText {
-            width: 80%;
-            max-width: 600px;
-            font-family: 'Georgia', serif;
-            font-size: 1em;
-            line-height: 1.5;
-            margin: 10px 0;
-            text-align: left;
-        }
-
-        /* Map container styling */
-        #mapContainer {
-            width: 100%;
-            padding: 10px 0;
-            text-align: center;
-            margin-top: 10px;
-        }
-        iframe {
-            width: 90%;
-            max-width: 425px;
-            height: 300px;
-            border: 1px solid black;
-        }
-
-        /* Responsive adjustments for smaller screens */
-        @media (max-width: 767px) {
-            /* Header, header link, paragraph, and map container to fill width on mobile */
-            #headerLink,
-            h1,
-            #paragraphText,
-            #mapContainer {
-                width: 100%;
-                max-width: 100%;
-                text-align: center;
-            }
-
-            /* Center header link and make it only as wide as content */
-            #headerLink {
-                width: auto;
-                margin: 0 auto;
-                font-size: 1em;
-                margin-top: 15px;
-            }
-
-    
-
-            #paragraphText {
-                font-size: 1.2em;
-                text-align: left;
-				margin-left: 75px;
-            }
-
-            /* Full-width map on mobile */
-            iframe {
-                width: 90%; /* Make the map fill the screen width */
-                height: 250px;
-                max-width: none; /* Remove any max-width constraint */
-            }
-        }
     </style>
 </head>
 <body>
