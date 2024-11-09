@@ -77,19 +77,20 @@
             border: 1px solid black;
         }
         
-        /* Responsive adjustments for smaller screens */
-        @media (max-width: 1000px) {
-            h1 {
-                font-size: 6em;
-            }
-            #paragraphText {
-                font-size: 1.5em;
-            }
-            iframe {
-                height: 400px;
-            }
-        }
-    
+/* Responsiv justering for mobil */
+@media (max-width: 767px) {
+    h1 {
+        font-size: 12vw; /* Større fontstørrelse på mobil */
+        margin-top: 15px;
+    }
+    #paragraphText {
+        width: 100%; /* Full bredde på mobil */
+        font-size: 1.2em; /* Økt lesbarhet på mobil */
+    }
+    iframe {
+        height: 200px;
+    }
+}
     </style>
 </head>
 <body>
