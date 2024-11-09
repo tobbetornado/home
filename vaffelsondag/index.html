@@ -178,8 +178,8 @@ margin:0;
                 x_epi.push(x); y_epi.push(y);
                 const m = Math.floor((n * v) / (2 * Math.PI)); 
 	      	    a = (n * v) / (2 * Math.PI) - m;
-                x_kant.push(a * R * Math.cos((m+1) * 2 * Math.PI / n));
-                y_kant.push(a * R * Math.sin((m+1) * 2 * Math.PI / n));
+                x_kant.push(a * R * Math.cos((m) * 2 * Math.PI / n));
+                y_kant.push(a * R * Math.sin((m) * 2 * Math.PI / n));
             });
             return { x_epi, y_epi, x_kant, y_kant, currentPoint: 0 };
         }
