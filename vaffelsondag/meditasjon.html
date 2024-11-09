@@ -40,6 +40,44 @@
             opacity: 0.6;
             pointer-events: none;
         }
+		        /* Responsive adjustments for smaller screens */
+        @media (max-width: 767px) {
+            /* Header, header link, paragraph, and map container to fill width on mobile */
+            #headerLink,
+            h1,
+            #paragraphText,
+            #mapContainer {
+                width: 100%;
+                max-width: 100%;
+                text-align: center;
+            }
+
+            /* Center header link and make it only as wide as content */
+            #headerLink {
+                width: auto;
+                margin: 0 auto;
+                font-size: 1em;
+                margin-top: 15px;
+            }
+
+            h1 {
+                font-size: 3.3em;
+                margin: 15px 0;
+            }
+
+            #paragraphText {
+                font-size: 1.2em;
+                text-align: left;
+				margin-left: 75px;
+            }
+
+            /* Full-width map on mobile */
+            iframe {
+                width: 90%; /* Make the map fill the screen width */
+                height: 250px;
+                max-width: none; /* Remove any max-width constraint */
+            }
+        }
     </style>
 </head>
 <body>
