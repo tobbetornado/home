@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&display=swap" rel="stylesheet">
 	<style>
   <style>
+<style>
     /* Reset and basic styling */
     * {
         margin: 0;
@@ -20,11 +21,9 @@
         background-color: #fff8dc;
         font-family: Arial, sans-serif;
         color: #333;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         height: 100vh;
         overflow: hidden;
+        position: relative;
     }
 
     /* Canvas background */
@@ -39,15 +38,23 @@
     }
 
     /* Centered Header Styling */
+    .centered-header {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
     h1 {
         font-family: 'Young Serif', cursive;
         font-size: clamp(3rem, 8vw, 10rem);
         color: #d2691e;
         opacity: 0.6;
-        text-align: center;
+        margin: 0;
     }
 
-    /* Header link styling (optional, if still needed) */
+    /* Header link styling */
     #headerLink {
         font-family: 'Courier New', monospace;
         font-size: 16px;
@@ -55,6 +62,8 @@
         margin-top: 10px;
         text-align: center;
     }
+</style>
+
 </style>
 
     </style>
@@ -68,12 +77,12 @@
         <a href="https://tobbetornado.github.io/home/" target="_blank">https://tobbetornado.github.io/home/</a>
     </div>
     
-    <!-- Main title -->
-    <h1>Vaffelsøndag</h1>
-    
+    <!-- Centered header title -->
+    <div class="centered-header">
+        <h1>Vaffelsøndag</h1>
+    </div>
 
-    
-   
+
 
     <script>
         const canvas = document.getElementById('canvas');
