@@ -191,7 +191,7 @@ margin:0;
             waffles.push({ points, color: getRandomBrown(), posX, posY, R, createTime: Date.now(), reverse: Math.random() < 0.5, rotationAngle: Math.random() * 2 * Math.PI });
         }
 
-        function draw() {
+function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const currentTime = Date.now();
     waffles = waffles.filter(waffle => (currentTime - waffle.createTime) / 1000 < 10);
@@ -204,14 +204,15 @@ margin:0;
         const totalPoints = x_epi.length;
         const pointsPerFrame = Math.random() * 10 + 1;
 
-        // Oppdater currentPoint basert på om vaffelen går bakover eller fremover
+        // Oppdater currentPoint basert på retning (framover eller bakover)
         if (reverse) {
             points.currentPoint = Math.max(points.currentPoint - pointsPerFrame, 0);
         } else {
             points.currentPoint = Math.min(points.currentPoint + pointsPerFrame, totalPoints);
         }
 
-        const endPoint = points.currentPoint;
+        const startPoint = reverse ? totalPoints - points.currentPoint : 0;
+        const endPoint = reverse ? totalPoints : points.currentPoint;
 
         ctx.globalAlpha = opacity * 0.5;
         ctx.fillStyle = color;
@@ -219,11 +220,17 @@ margin:0;
         ctx.translate(posX, posY);
         ctx.rotate(rotationAngle);
 
-        // Tegn punkter i riktig rekkefølge basert på reverse-flagget
-        for (let j = 0; j < endPoint; j++) {
-            const index = reverse ? totalPoints - j - 1 : j;
-            ctx.fillRect(x_epi[index], y_epi[index], 2, 2);
-            ctx.fillRect(x_kant[index], y_kant[index], 2, 2);
+        // Tegn punkter i riktig rekkefølge for fremover og bakover
+        if (reverse) {
+            for (let j = startPoint; j < endPoint; j++) {
+                ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
+                ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
+            }
+        } else {
+            for (let j = 0; j < endPoint; j++) {
+                ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
+                ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
+            }
         }
 
         ctx.restore();
