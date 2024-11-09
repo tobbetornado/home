@@ -22,6 +22,13 @@
             left: 0;
             background-color: transparent;
         }
+		 /* Header link styling */
+        #headerLink {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            opacity: 0.6;
+            margin-top: 10px;
+        }
         #backgroundText {
             position: absolute;
             top: 50%;
@@ -37,6 +44,10 @@
 </head>
 <body>
     <div id="backgroundText">Vaffelsøndag</div>
+	    <!-- Header link -->
+    <div id="headerLink">
+        <a href="https://tobbetornado.github.io/home/" target="_blank">https://tobbetornado.github.io/home/</a>
+    </div>
     <canvas id="canvas"></canvas>
     <script>
         const canvas = document.getElementById('canvas');
