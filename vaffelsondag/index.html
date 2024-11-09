@@ -192,42 +192,42 @@ margin:0;
         }
 
         function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const currentTime = Date.now();
-            waffles = waffles.filter(waffle => (currentTime - waffle.createTime) / 1000 < 10);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const currentTime = Date.now();
+    waffles = waffles.filter(waffle => (currentTime - waffle.createTime) / 1000 < 10);
 
-            waffles.forEach(waffle => {
-                const { points, color, posX, posY, rotationAngle, reverse, createTime } = waffle;
-                const age = (currentTime - createTime) / 1000, opacity = Math.max(1 - age / 10, 0);
-                const { x_epi, y_epi, x_kant, y_kant, currentPoint } = points;
-                const totalPoints = x_epi.length, pointsPerFrame = Math.random() * 10 + 1;
-                const newEndPoint = Math.min(currentPoint + pointsPerFrame, totalPoints);
+    waffles.forEach(waffle => {
+        const { points, color, posX, posY, rotationAngle, reverse, createTime } = waffle;
+        const age = (currentTime - createTime) / 1000, opacity = Math.max(1 - age / 10, 0);
+        const { x_epi, y_epi, x_kant, y_kant } = points;
+        const totalPoints = x_epi.length;
+        const pointsPerFrame = Math.random() * 10 + 1;
+        
+        // Juster currentPoint basert på reverse flagget
+        points.currentPoint = reverse 
+            ? Math.max(points.currentPoint - pointsPerFrame, 0)
+            : Math.min(points.currentPoint + pointsPerFrame, totalPoints);
 
-                ctx.globalAlpha = opacity * 0.5;
-                ctx.fillStyle = color;
-                ctx.save();
-                ctx.translate(posX, posY);
-                ctx.rotate(rotationAngle);
+        const endPoint = points.currentPoint;
 
-               if (reverse) {
-    for (let j = totalPoints - currentPoint - 1; j >= totalPoints - newEndPoint; j--) {
-        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
-        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
-    }
-} else {
-    for (let j = currentPoint; j < newEndPoint; j++) {
-        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
-        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
-    }
+        ctx.globalAlpha = opacity * 0.5;
+        ctx.fillStyle = color;
+        ctx.save();
+        ctx.translate(posX, posY);
+        ctx.rotate(rotationAngle);
+
+        for (let j = 0; j < endPoint; j++) {
+            const index = reverse ? totalPoints - j - 1 : j;
+            ctx.fillRect(x_epi[index], y_epi[index], 2, 2);
+            ctx.fillRect(x_kant[index], y_kant[index], 2, 2);
+        }
+
+        ctx.restore();
+        ctx.globalAlpha = 1;
+    });
+    requestAnimationFrame(draw);
 }
 
-
-                points.currentPoint = newEndPoint;
-                ctx.restore();
-                ctx.globalAlpha = 1;
-            });
-            requestAnimationFrame(draw);
-        }
 
         // Initial call to draw and add waffles periodically
         draw();
