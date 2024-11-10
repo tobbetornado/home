@@ -187,6 +187,7 @@ margin:0;
         window.addEventListener('resize', resizeCanvas);
         window.addEventListener('orientationchange', resizeCanvas);
 
+
         // Waffle generation setup
         let waffles = [];
         const getRandomBrown = () => ['#8B4513', '#A0522D', '#D2691E', '#CD853F', '#F4A460', '#DEB887', '#D2B48C', '#BC8F8F', '#FFEBCD', '#F5DEB3'][Math.floor(Math.random() * 10)];
@@ -200,8 +201,8 @@ margin:0;
                 x_epi.push(x); y_epi.push(y);
                 const m = Math.floor((n * v) / (2 * Math.PI)); 
 	      	    a = (n * v) / (2 * Math.PI) - m;
-                x_kant.push(a * R * Math.cos((m) * 2 * Math.PI / n));
-                y_kant.push(a * R * Math.sin((m) * 2 * Math.PI / n));
+                x_kant.push(a * R * Math.cos((m+1) * 2 * Math.PI / n));
+                y_kant.push(a * R * Math.sin((m+1) * 2 * Math.PI / n));
             });
             return { x_epi, y_epi, x_kant, y_kant, currentPoint: 0 };
         }
@@ -213,53 +214,42 @@ margin:0;
             waffles.push({ points, color: getRandomBrown(), posX, posY, R, createTime: Date.now(), reverse: Math.random() < 0.5, rotationAngle: Math.random() * 2 * Math.PI });
         }
 
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const currentTime = Date.now();
-    waffles = waffles.filter(waffle => (currentTime - waffle.createTime) / 1000 < 10);
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const currentTime = Date.now();
+            waffles = waffles.filter(waffle => (currentTime - waffle.createTime) / 1000 < 10);
 
-    waffles.forEach(waffle => {
-        const { points, color, posX, posY, rotationAngle, reverse, createTime } = waffle;
-        const age = (currentTime - createTime) / 1000;
-        const opacity = Math.max(1 - age / 10, 0);
-        const { x_epi, y_epi, x_kant, y_kant } = points;
-        const totalPoints = x_epi.length;
-        const pointsPerFrame = Math.random() * 10 + 1;
+            waffles.forEach(waffle => {
+                const { points, color, posX, posY, rotationAngle, reverse, createTime } = waffle;
+                const age = (currentTime - createTime) / 1000, opacity = Math.max(1 - age / 10, 0);
+                const { x_epi, y_epi, x_kant, y_kant, currentPoint } = points;
+                const totalPoints = x_epi.length, pointsPerFrame = Math.random() * 10 + 1;
+                const newEndPoint = Math.min(currentPoint + pointsPerFrame, totalPoints);
 
-        // Oppdater currentPoint basert på retning (framover eller bakover)
-        if (reverse) {
-            points.currentPoint = Math.max(points.currentPoint - pointsPerFrame, 0);
-        } else {
-            points.currentPoint = Math.min(points.currentPoint + pointsPerFrame, totalPoints);
+                ctx.globalAlpha = opacity * 0.5;
+                ctx.fillStyle = color;
+                ctx.save();
+                ctx.translate(posX, posY);
+                ctx.rotate(rotationAngle);
+
+                if (reverse) {
+                    for (let j = totalPoints - 2; j >= totalPoints - newEndPoint; j--) {
+                        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
+                        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
+                    }
+                } else {
+                    for (let j = currentPoint + 1; j < newEndPoint; j++) {
+                        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
+                        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
+                    }
+                }
+
+                points.currentPoint = newEndPoint;
+                ctx.restore();
+                ctx.globalAlpha = 1;
+            });
+            requestAnimationFrame(draw);
         }
-
-        const startPoint = reverse ? totalPoints - points.currentPoint : 0;
-        const endPoint = reverse ? totalPoints : points.currentPoint;
-
-        ctx.globalAlpha = opacity * 0.5;
-        ctx.fillStyle = color;
-        ctx.save();
-        ctx.translate(posX, posY);
-        ctx.rotate(rotationAngle);
-
-        // Tegn punkter i riktig rekkefølge for fremover og bakover
-        if (reverse) {
-            for (let j = startPoint; j < endPoint; j++) {
-                ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
-                ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
-            }
-        } else {
-            for (let j = 0; j < endPoint; j++) {
-                ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
-                ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
-            }
-        }
-
-        ctx.restore();
-        ctx.globalAlpha = 1;
-    });
-    requestAnimationFrame(draw);
-}
 
         // Initial call to draw and add waffles periodically
         draw();
