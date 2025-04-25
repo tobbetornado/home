@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Matiné Bingo</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #f0f0f0;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 1em;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      width: 120px;
+      height: 120px;
+      border: 2px solid #444;
+      text-align: center;
+      vertical-align: middle;
+      padding: 10px;
+      font-size: 14px;
+      word-wrap: break-word;
+      background: white;
+      box-sizing: border-box;
+    }
+
+    .free {
+      background: #ccc;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎤 Matiné Bingo 🎶</h1>
+  <table id="bingo"></table>
+
+  <script>
+    const items = [
+      "Modulasjon", "Tempo øker", "Tempo synker", "Medley", "Solist som står forran mikrofon",
+      "Rytme egg", "Piano komp", "Mat som skåler ila sangen", "Henda forran munnen/ansiktet",
+      "Noen står for nære mikrofon", "Shoutout til paven", "Heile kroppen for å dirigere",
+      "Rekvisitt", "Beatboxing", "Klapping i utakt", "Samme sang", "Intro lengre enn sangen",
+      "Feil uniform?", "Snubler i trappo", "Kostyme-bytte", "ikke drikk offentlig", "Kleint", "Kult", "SEXYY"
+    ];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function createBingoBoard() {
+      const board = document.getElementById("bingo");
+      const allItems = [...items];
+      shuffle(allItems);
+      allItems.splice(12, 0, "FREE"); // Put "FREE" in center
+
+      for (let i = 0; i < 5; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < 5; j++) {
+          const cell = document.createElement("td");
+          const index = i * 5 + j;
+          cell.textContent = allItems[index];
+          if (index === 12) {
+            cell.classList.add("free");
+          }
+          row.appendChild(cell);
+        }
+        board.appendChild(row);
+      }
+    }
+
+    createBingoBoard();
+  </script>
+</body>
+</html>
