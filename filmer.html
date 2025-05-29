@@ -45,8 +45,94 @@
 </head>
 <body>
   <h1>Filmer Josefine og Tobias kan se sammen</h1>
-  <input type="text" id="itemInput" placeholder="Add item..." />
+  <input id="itemInput" placeholder="Add something..." style="background-color: transparent; border: 1px solid #ccc; color: black; outline: none;">
+
   <button onclick="addItem()">Add</button>
   <ul id="itemList"></ul>
+<canvas id="canvas"></canvas>
+<script>
+
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Function to resize the canvas to cover the full viewport
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        // Initial resize and event listener for resizing
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('orientationchange', resizeCanvas);
+
+        // Waffle generation setup
+        let waffles = [];
+        const getRandomBrown = () => ['#8B4513', '#A0522D', '#D2691E', '#CD853F', '#F4A460', '#DEB887', '#D2B48C', '#BC8F8F', '#FFEBCD', '#F5DEB3'][Math.floor(Math.random() * 10)];
+
+        function generateWaffle(n, R) {
+            const r = R / (2 * n), vinkler = Array.from({ length: 360 * n + 1 }, (_, i) => i * 2 * Math.PI / (360 * n));
+            const x_epi = [], y_epi = [], x_kant = [], y_kant = [];
+            vinkler.forEach(v => {
+                const x = (R + r) * Math.cos(v) - r * Math.cos((R + r) / r * v);
+                const y = (R + r) * Math.sin(v) - r * Math.sin((R + r) / r * v);
+                x_epi.push(x); y_epi.push(y);
+                const m = Math.floor((n * v) / (2 * Math.PI)); 
+	      	    a = (n * v) / (2 * Math.PI) - m;
+                x_kant.push(a * R * Math.cos((m+1) * 2 * Math.PI / n));
+                y_kant.push(a * R * Math.sin((m+1) * 2 * Math.PI / n));
+            });
+            return { x_epi, y_epi, x_kant, y_kant, currentPoint: 0 };
+        }
+
+        function addWaffle() {
+            const n = Math.floor(Math.random() * 3) + 4, R = Math.random() * 50 + 30;
+            const points = generateWaffle(n, R);
+            let posX = Math.random() * canvas.width, posY = Math.random() * canvas.height;
+            waffles.push({ points, color: getRandomBrown(), posX, posY, R, createTime: Date.now(), reverse: Math.random() < 0.5, rotationAngle: Math.random() * 2 * Math.PI });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const currentTime = Date.now();
+            waffles = waffles.filter(waffle => (currentTime - waffle.createTime) / 1000 < 10);
+
+            waffles.forEach(waffle => {
+                const { points, color, posX, posY, rotationAngle, reverse, createTime } = waffle;
+                const age = (currentTime - createTime) / 1000, opacity = Math.max(1 - age / 10, 0);
+                const { x_epi, y_epi, x_kant, y_kant, currentPoint } = points;
+                const totalPoints = x_epi.length, pointsPerFrame = Math.random() * 10 + 1;
+                const newEndPoint = Math.min(currentPoint + pointsPerFrame, totalPoints);
+
+                ctx.globalAlpha = opacity * 0.5;
+                ctx.fillStyle = color;
+                ctx.save();
+                ctx.translate(posX, posY);
+                ctx.rotate(rotationAngle);
+
+                if (reverse) {
+                    for (let j = totalPoints - 2; j >= totalPoints - newEndPoint; j--) {
+                        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
+                        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
+                    }
+                } else {
+                    for (let j = currentPoint + 1; j < newEndPoint; j++) {
+                        ctx.fillRect(x_epi[j], y_epi[j], 2, 2);
+                        ctx.fillRect(x_kant[j], y_kant[j], 2, 2);
+                    }
+                }
+
+                points.currentPoint = newEndPoint;
+                ctx.restore();
+                ctx.globalAlpha = 1;
+            });
+            requestAnimationFrame(draw);
+        }
+
+        // Initial call to draw and add waffles periodically
+        draw();
+        setInterval(addWaffle, 1000);
+    
+</script>
 </body>
 </html>
