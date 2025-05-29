@@ -3,45 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <title>Global List</title>
-</head>
-<body>
-  <h1>Global List</h1>
-  <input type="text" id="itemInput" placeholder="Add item...">
-  <button onclick="addItem()">Add</button>
-  <ul id="itemList"></ul>
+  <script type="module">
+    // Import Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  <script>
-    const endpoint = "https://script.google.com/macros/s/AKfycbz7PPtT6LmWKGm0lsfz55faX35WvfVLzdiWAIcj6L5NMOpknsNUJVXCKDuTx2yU-uhB/exec"; // replace with your Apps Script Web App URL
+    const firebaseConfig = {
+      apiKey: "AIzaSyBAStNsFII7mj2QF-58H1vqY_82MzCKMhk",
+      authDomain: "globallistapp.firebaseapp.com",
+      projectId: "globallistapp",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
     async function fetchItems() {
-      const res = await fetch(endpoint);
-      const items = await res.json();
       const list = document.getElementById("itemList");
       list.innerHTML = "";
-      items.forEach(item => {
+
+      const snapshot = await getDocs(collection(db, "items"));
+      snapshot.forEach(doc => {
         const li = document.createElement("li");
-        li.textContent = item;
+        li.textContent = doc.data().value;
         list.appendChild(li);
       });
     }
 
     async function addItem() {
       const input = document.getElementById("itemInput");
-      const item = input.value.trim();
-      if (!item) return;
+      const value = input.value.trim();
+      if (!value) return;
 
-      await fetch(endpoint, {
-        method: "POST",
-        body: JSON.stringify({ item }),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+      await addDoc(collection(db, "items"), { value });
       input.value = "";
-      fetchItems(); // refresh list
+      fetchItems();
     }
 
-    fetchItems(); // load on start
+    window.addItem = addItem;
+    window.onload = fetchItems;
   </script>
+</head>
+<body>
+  <h1>Global List</h1>
+  <input type="text" id="itemInput" placeholder="Add item..." />
+  <button onclick="addItem()">Add</button>
+  <ul id="itemList"></ul>
 </body>
 </html>
