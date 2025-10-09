@@ -102,32 +102,39 @@ df2["delta_days"] = (df2["tid"] - df2["tid"].iloc[0]).dt.total_seconds() / (24 *
 OG = 1.065
 FG = 1.015
 
-def modell(time, r, t_0, s):
+def modell1(time, r, t_0):
     return FG + (OG - FG)/((1 + np.exp(r*(time - t_0)))**(1.0/1.0))
+def modell2(time, r, t_0, s):
+    return FG + (OG - FG)/((1 + s*np.exp(r*(time - t_0)))**(1.0/s))
 
 xdata = df2["delta_days"].values
 ydata = df2["gravity"].values
 
 # initial guess and bounds
-p0 = [-1.0, np.median(xdata), 0.1]
+p1 = [1.0, np.median(xdata)]
+bounds = ([-10, -100], [10, 100])
+
+popt1, pcov1 = scipy.optimize.curve_fit(modell1, xdata, ydata, p0=p1, bounds=bounds, maxfev=10000)
+r_fit1, t0_fit1 = popt1
+fitted = True
+
+p2 = [1.0, np.median(xdata), 1.0]
 bounds = ([-10, -100, -10], [10, 100, 10])
 
-try:
-    popt, pcov = scipy.optimize.curve_fit(modell, xdata, ydata, p0=p0, bounds=bounds, maxfev=10000)
-    r_fit, t0_fit, s_fit = popt
-    fitted = True
-except Exception as e:
-    print("Curve fit failed:", e)
-    r_fit, t0_fit, s_fit = p0
-    fitted = False
+popt2, pcov2 = scipy.optimize.curve_fit(modell2, xdata, ydata, p0=p2, bounds=bounds, maxfev=10000)
+r_fit2, t0_fit2, s_fit2 = popt2
+fitted = True
 
 x_modell = np.linspace(0, max(18, xdata.max()+1), 200)
-G_modell = modell(x_modell, r_fit, t0_fit, s_fit)
+G_modell1 = modell(x_modell, r_fit1, t0_fit1)
+G_modell2 = modell(x_modell, r_fit2, t0_fit2, s_fit2)
+
 
 # Plot (matplotlib)
 fig, ax1 = plt.subplots(figsize=(8,5))
 ax1.scatter(xdata, ydata, label="Gravity measured")
-ax1.plot(x_modell, G_modell, label="Gravity model")
+ax1.plot(x_modell, G_modell1, label="Gravity model")
+ax1.plot(x_modell, G_modell2, label="Gravity model med s")
 ax1.set_xlabel("Tid i dager")
 ax1.set_ylabel("Gravity")
 
