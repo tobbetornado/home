@@ -126,8 +126,8 @@ r_fit2, t0_fit2, s_fit2 = popt2
 fitted = True
 
 x_modell = np.linspace(0, max(18, xdata.max()+1), 200)
-G_modell1 = modell(x_modell, r_fit1, t0_fit1)
-G_modell2 = modell(x_modell, r_fit2, t0_fit2, s_fit2)
+G_modell1 = modell1(x_modell, r_fit1, t0_fit1)
+G_modell2 = modell2(x_modell, r_fit2, t0_fit2, s_fit2)
 
 
 # Plot (matplotlib)
