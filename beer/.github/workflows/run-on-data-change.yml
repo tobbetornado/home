@@ -27,10 +27,10 @@ jobs:
 
       - name: Run plotting script
         env:
-          DATA_PATH: data/input.csv
+          DATA_PATH: data/data.csv
           OUT_DIR: artifact
         run: |
-          python scripts/make_figure.py
+          python scripts/analysis.py
           ls -la artifact
 
       # --- Option A: Commit the generated figure back to the repo (e.g. gh-pages or main) ---
