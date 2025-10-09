@@ -35,7 +35,7 @@ jobs:
 
       # --- Option A: Commit the generated figure back to the repo (e.g. gh-pages or main) ---
       - name: Commit and push figure to repo (option A)
-        if: ${{ secrets.GH_PUSH_PAT }}  # run only if the PAT secret is configured
+        if: ${{ env.GH_PUSH_PAT != '' }}  # run only if the PAT secret is configured
         env:
           GH_PAT: ${{ secrets.GH_PUSH_PAT }}
         run: |
