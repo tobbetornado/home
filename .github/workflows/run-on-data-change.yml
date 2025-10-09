@@ -43,8 +43,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -B gh-pages || git checkout gh-pages || true
           mkdir -p public
-          cp artifact/figure.png public/
-          git add public/figure.png || true
+          cp artifact/fermentering_figure.png public/
+          git add public/fermentering_figure.png || true
           # commit only when file changed
           git commit -m "Auto-update figure from data (GitHub Actions)" || echo "no changes to commit"
           git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} gh-pages --force
