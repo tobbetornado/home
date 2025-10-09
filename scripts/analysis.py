@@ -147,8 +147,5 @@ lines, labels = ax1.get_legend_handles_labels()
 lines2, labels2 = ax3.get_legend_handles_labels()
 fig.legend(lines+lines2, labels+labels2, loc="upper right", bbox_to_anchor=(0.82, 0.9))
 
-txt = f"r={r_fit:.3f}\\n t₀={t0_fit:.3f}\\n s={s_fit:.3f}\\n fit_ok={fitted}"
-plt.annotate(txt, xy=(0.02,0.98), xycoords="axes fraction", verticalalignment="top")
-
 fig.savefig(OUT_FILE, bbox_inches="tight")
 print("Saved:", OUT_FILE)
