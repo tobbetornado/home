@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 import scipy.optimize
 
 # Paths (can be overridden by env)
-DATA_PATH = os.environ.get("DATA_PATH", "C:/Users/Bruker/Downloads/olanalyse.csv")
+DATA_PATH = os.environ.get("DATA_PATH", "data/data.csv")
 OUT_DIR = os.environ.get("OUT_DIR", "artifact")
 OUT_FILE = os.path.join(OUT_DIR, "fermentering_figure.png")
 
