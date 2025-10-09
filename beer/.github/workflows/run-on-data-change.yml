@@ -1,0 +1,50 @@
+name: Produce figure on data change
+
+on:
+  push:
+    paths:
+      - 'data/**'           # trigger when any file under data/ changes
+  workflow_dispatch:       # optional: allows manual runs in Actions UI
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run plotting script
+        env:
+          DATA_PATH: data/input.csv
+          OUT_DIR: artifact
+        run: |
+          python scripts/make_figure.py
+          ls -la artifact
+
+      # --- Option A: Commit the generated figure back to the repo (e.g. gh-pages or main) ---
+      - name: Commit and push figure to repo (option A)
+        if: ${{ secrets.GH_PUSH_PAT != '' }}   # run only if the PAT secret is configured
+        env:
+          GH_PAT: ${{ secrets.GH_PUSH_PAT }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B gh-pages || git checkout gh-pages || true
+          mkdir -p public
+          cp artifact/figure.png public/
+          git add public/figure.png || true
+          # commit only when file changed
+          git commit -m "Auto-update figure from data (GitHub Actions)" || echo "no changes to commit"
+          git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} gh-pages --force
