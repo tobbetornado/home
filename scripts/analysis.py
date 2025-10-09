@@ -125,7 +125,7 @@ popt2, pcov2 = scipy.optimize.curve_fit(modell2, xdata, ydata, p0=p2, bounds=bou
 r_fit2, t0_fit2, s_fit2 = popt2
 fitted = True
 
-x_modell = np.linspace(0, max(18, xdata.max()+1), 200)
+x_modell = np.linspace(0, max(20, xdata.max()+10), 200)
 G_modell1 = modell1(x_modell, r_fit1, t0_fit1)
 G_modell2 = modell2(x_modell, r_fit2, t0_fit2, s_fit2)
 
