@@ -99,11 +99,11 @@ if df2.empty:
 
 df2["delta_days"] = (df2["tid"] - df2["tid"].iloc[0]).dt.total_seconds() / (24 * 3600)
 
-OG = df2["gravity"].iloc[0]
-FG_guess = df2["gravity"].iloc[-1]
+OG = 1.065
+FG = 1.015
 
 def modell(time, r, t_0, s):
-    return FG_guess + (OG - FG_guess)/((1 + np.exp(r*(time - t_0)))**(1.0/1.0))
+    return FG + (OG - FG)/((1 + np.exp(r*(time - t_0)))**(1.0/1.0))
 
 xdata = df2["delta_days"].values
 ydata = df2["gravity"].values
