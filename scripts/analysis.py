@@ -135,8 +135,13 @@ fig, ax1 = plt.subplots(figsize=(8,5))
 ax1.scatter(xdata, ydata, label="Gravity measured")
 ax1.plot(x_modell, G_modell1, label="Gravity model")
 ax1.plot(x_modell, G_modell2, label="Gravity model med s")
-ax1.plot(x_modell, OG, linestyle="--", label="Original gravity")
-ax1.plot(x_modell, FG, linestyle="--", label="Predicted final gravity")
+
+x_line = np.array(0, max(x_modell))
+og_line = np.array(OG, OG)
+fg_line = np.array(FG, FG)
+
+ax1.plot(x_line, og_line, linestyle="--", label="Original gravity")
+ax1.plot(x_line, fg_line, linestyle="--", label="Predicted final gravity")
 
 
 ax1.set_xlabel("Tid i dager")
