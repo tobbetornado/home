@@ -1,2 +1,6 @@
 pandas
 matplotlib
+
+os
+numpy
+scipy
