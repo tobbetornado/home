@@ -3,8 +3,8 @@ name: Produce figure on data change
 on:
   push:
     paths:
-      - 'data/**'           # trigger when any file under data/ changes
-  workflow_dispatch:       # optional: allows manual runs in Actions UI
+      - 'data/**'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,28 +23,76 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            echo "No requirements.txt found, skipping pip install"
+            exit 1
+          fi
+
+      - name: Debug directory structure
+        run: |
+          echo "Listing repository contents:"
+          ls -R
+          if [ -f data/data.csv ]; then
+            echo "data.csv found"
+          else
+            echo "Error: data/data.csv not found"
+            exit 1
+          fi
+          if [ -f scripts/analysis.py ]; then
+            echo "analysis.py found"
+          else
+            echo "Error: scripts/analysis.py not found"
+            exit 1
+          fi
 
       - name: Run plotting script
         env:
           DATA_PATH: data/data.csv
           OUT_DIR: artifact
         run: |
-          python scripts/analysis.py
-          ls -la artifact
+          set -x
+          python scripts/analysis.py || { echo "Error: analysis.py failed"; exit 1; }
+          if [ -f artifact/fermentering_figure.png ]; then
+            echo "Figure generated successfully"
+            ls -la artifact
+          else
+            echo "Error: fermentering_figure.png not found in artifact/"
+            exit 1
+          fi
 
-      # --- Option A: Commit the generated figure back to the repo (e.g. gh-pages or main) ---
-      - name: Commit and push figure to repo (option A)
-        if: ${{ env.GH_PUSH_PAT != '' }}  # run only if the PAT secret is configured
+      - name: Verify figure exists
+        run: |
+          if [ -f artifact/fermentering_figure.png ]; then
+            echo "Figure exists"
+            ls -la artifact
+          else
+            echo "Error: fermentering_figure.png not found"
+            exit 1
+          fi
+
+      - name: Check GH_PUSH_PAT
+        run: |
+          if [ -z "${{ secrets.GH_PUSH_PAT }}" ]; then
+            echo "GH_PUSH_PAT not set - skipping commit step"
+          else
+            echo "GH_PUSH_PAT is set"
+          fi
+
+      - name: Commit and push figure to repo
+        if: env.GH_PAT != ''
         env:
           GH_PAT: ${{ secrets.GH_PUSH_PAT }}
         run: |
+          set -x
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -B gh-pages || git checkout gh-pages || true
+          git checkout -B gh-pages && echo "Created/switched to gh-pages" || { echo "Failed to checkout gh-pages"; exit 1; }
           mkdir -p public
-          cp artifact/fermentering_figure.png public/
-          git add public/fermentering_figure.png || true
-          # commit only when file changed
-          git commit -m "Auto-update figure from data (GitHub Actions)" || echo "no changes to commit"
-          git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} gh-pages --force
+          rm -f public/fermentering_figure.png
+          cp artifact/fermentering_figure.png public/ || { echo "Failed to copy fermentering_figure.png"; exit 1; }
+          git add public/fermentering_figure.png
+          git diff --staged --quiet && { echo "No changes to commit - figure unchanged"; exit 1; }
+          git commit -m "Auto-update fermentering_figure.png from data (GitHub Actions)"
+          git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} gh-pages --force || { echo "Push failed with error code $?"; exit 1; }
