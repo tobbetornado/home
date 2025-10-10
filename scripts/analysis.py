@@ -103,9 +103,12 @@ OG = 1.065
 FG = 1.015
 
 def modell1(time, r, t_0):
-    return FG + (OG - FG)/((1 + np.exp(r*(time - t_0)))**(1.0/1.0))
+    return FG + (OG - FG)/(1 + np.exp(r*(time - t_0)))
 def modell2(time, r, t_0, s):
     return FG + (OG - FG)/((1 + s*np.exp(r*(time - t_0)))**(1.0/s))
+def modell3(time, r, t_0):
+    return FG/(1 + np.exp(r*(time - t_0)))
+
 
 xdata = df2["delta_days"].values
 ydata = df2["gravity"].values
@@ -125,9 +128,18 @@ popt2, pcov2 = scipy.optimize.curve_fit(modell2, xdata, ydata, p0=p2, bounds=bou
 r_fit2, t0_fit2, s_fit2 = popt2
 fitted = True
 
+p3 = [1.0, np.median(xdata), 1.0]
+bounds = ([-10, -100], [10, 100])
+
+popt3, pcov3 = scipy.optimize.curve_fit(modell3, xdata, ydata, p0=p3, bounds=bounds, maxfev=10000)
+r_fit3, t0_fit3 = popt3
+fitted = True
+
 x_modell = np.linspace(0, max(20, xdata.max()+10), 200)
 G_modell1 = modell1(x_modell, r_fit1, t0_fit1)
 G_modell2 = modell2(x_modell, r_fit2, t0_fit2, s_fit2)
+G_modell3 = modell3(x_modell, r_fit3, t0_fit3)
+
 
 
 # Plot (matplotlib)
@@ -135,6 +147,7 @@ fig, ax1 = plt.subplots(figsize=(8,5))
 ax1.scatter(xdata, ydata, label="Gravity measured")
 ax1.plot(x_modell, G_modell1, label="Gravity model")
 ax1.plot(x_modell, G_modell2, label="Gravity model med s")
+ax1.plot(x_modell, G_modell3, label="Gravity model 3")
 
 x_line = np.array([0, max(x_modell)])
 og_line = np.array([OG, OG])
