@@ -128,7 +128,7 @@ popt2, pcov2 = scipy.optimize.curve_fit(modell2, xdata, ydata, p0=p2, bounds=bou
 r_fit2, t0_fit2, s_fit2 = popt2
 fitted = True
 
-p3 = [1.0, np.median(xdata), 1.0]
+p3 = [1.0, np.median(xdata)]
 bounds = ([-10, -100], [10, 100])
 
 popt3, pcov3 = scipy.optimize.curve_fit(modell3, xdata, ydata, p0=p3, bounds=bounds, maxfev=10000)
