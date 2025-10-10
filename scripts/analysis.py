@@ -107,7 +107,7 @@ def modell1(time, r, t_0):
 def modell2(time, r, t_0, s):
     return FG + (OG - FG)/((1 + s*np.exp(r*(time - t_0)))**(1.0/s))
 def modell3(time, r, t_0):
-    return FG/(1 + np.exp(r*(time - t_0)))
+    return ((OG-FG)/OG)/(1 + np.exp(r*(time - t_0)))
 
 
 xdata = df2["delta_days"].values
