@@ -149,6 +149,20 @@ ax1.plot(x_modell, G_modell1, label="Gravity model")
 ax1.plot(x_modell, G_modell2, label="Gravity model med s")
 ax1.plot(x_modell, G_modell3, label="Gravity model 3")
 
+# Show the last measured point values
+last_x = xdata[-1]
+last_y = ydata[-1]
+text_box = f"Siste måling:\nTid = {last_x:.2f} dager\nGravity = {last_y:.4f}"
+
+# Add a small box in the plot area
+ax1.text(
+    0.02, 0.95, text_box,
+    transform=ax1.transAxes,  # place relative to axes (0–1)
+    fontsize=9,
+    verticalalignment='top',
+    bbox=dict(facecolor='white', alpha=0.6, edgecolor='gray', boxstyle='round,pad=0.3')
+)
+
 x_line = np.array([0, max(x_modell)])
 og_line = np.array([OG, OG])
 fg_line = np.array([FG, FG])
