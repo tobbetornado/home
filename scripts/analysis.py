@@ -149,19 +149,28 @@ ax1.plot(x_modell, G_modell1, label="Gravity model")
 ax1.plot(x_modell, G_modell2, label="Gravity model med s")
 ax1.plot(x_modell, G_modell3, label="Gravity model 3")
 
-# Show the last measured point values
-last_x = xdata[-1]
+# ⬇️ ADD THIS BLOCK
+# Show the last measured point values (with actual datetime)
+last_time = df2["tid"].iloc[-1]       # datetime from the dataframe
+last_x_days = xdata[-1]               # days since start (still useful for model)
 last_y = ydata[-1]
-text_box = f"Siste måling:\nTid = {last_x:.2f} dager\nGravity = {last_y:.4f}"
 
-# Add a small box in the plot area
+text_box = (
+    f"Siste måling:\n"
+    f"Tid: {last_time.strftime('%Y-%m-%d %H:%M')}\n"
+    f"Gravity: {last_y:.4f}"
+)
+
+# Add a small text box in the plot
 ax1.text(
     0.02, 0.95, text_box,
-    transform=ax1.transAxes,  # place relative to axes (0–1)
+    transform=ax1.transAxes,  # relative to axes
     fontsize=9,
     verticalalignment='top',
     bbox=dict(facecolor='white', alpha=0.6, edgecolor='gray', boxstyle='round,pad=0.3')
 )
+# ⬆️ END ADDITION
+
 
 x_line = np.array([0, max(x_modell)])
 og_line = np.array([OG, OG])
