@@ -100,7 +100,7 @@ if df2.empty:
 df2["delta_days"] = (df2["tid"] - df2["tid"].iloc[0]).dt.total_seconds() / (24 * 3600)
 
 OG = 1.053
-FG = 1.014
+FG = 1.007
 
 def modell1(time, r, t_0):
     return FG + (OG - FG)/(1 + np.exp(-r*(time - t_0)))
